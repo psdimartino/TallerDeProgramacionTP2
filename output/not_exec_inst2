@@ -1,0 +1,20 @@
+0: INCONDITIONAL
+1: Type NOJUMP
+2: Type RET
+was label
+Instructions:
+ opcode: jmp skip position0
+ opcode: ld position1
+ label: skip opcode: ret position2
+Labels:
+ label: skip opcode: ret position2
+Labels:
+ label: skip opcode: ret position2
+Stack:
+
+Size of stack:0 Instruction:  opcode: jmp skip position0
+INC+COND_DOUBLE. PUSH: 
+ label: skip opcode: ret position2
+
+Size of stack:0 Instruction:  label: skip opcode: ret position2
+RET

@@ -1,0 +1,5 @@
+arp.bpf GOOD
+icmp.bpf GOOD
+seccomp.bpf GOOD
+tcp.bpf GOOD
+vlan.bpf GOOD

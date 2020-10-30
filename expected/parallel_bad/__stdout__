@@ -1,0 +1,5 @@
+arp.bpf GOOD
+bad_tcp.bpf FAIL: cycle detected
+not_exec_inst.bpf FAIL: unused instructions detected
+seccomp.bpf GOOD
+vlan.bpf GOOD

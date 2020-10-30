@@ -1,4 +1,4 @@
-# TallerDeProgramacionTP2
+# TP2 - Verificador de programas eBPF simplificado
 
 Pablo Salvador Dimartino - 101231
 

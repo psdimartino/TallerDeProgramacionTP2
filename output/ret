@@ -1,0 +1,9 @@
+0: Type RET
+Instructions:
+ opcode: ret position0
+Labels:
+Labels:
+Stack:
+
+Size of stack:0 Instruction:  opcode: ret position0
+RET
