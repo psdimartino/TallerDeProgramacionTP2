@@ -1,1 +1,1 @@
-./tp 1 icmp.bpf
+./tp 1 test/icmp/icmp.bpf

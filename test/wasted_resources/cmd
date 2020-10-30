@@ -1,1 +1,1 @@
-./tp 1 seccomp.bpf
+./tp 1 test/wasted_resources/seccomp.bpf

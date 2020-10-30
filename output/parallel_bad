@@ -1,31 +1,5 @@
-0: Type NOJUMP
-1: CONDITIONAL_SIMPLE
-2: Type RET
-3: Type RET
-was label
-Instructions:
- opcode: ldh position0
- opcode: jne drop position1
- opcode: ret position2
- label: drop opcode: ret position3
-Labels:
- label: drop opcode: ret position3
-Labels:
- label: drop opcode: ret position3
-Stack:
-
-Size of stack:0 Instruction:  opcode: ldh position0
-NOJUMP. PUSH: 0
- opcode: jne drop position1
-
-Size of stack:0 Instruction:  opcode: jne drop position1
-SIMPLE. PUSH: 
- label: drop opcode: ret position3
-NOJUMP. PUSH: 1
- opcode: ret position2
-
-Size of stack:1 Instruction:  opcode: ret position2
-RET
-
-Size of stack:0 Instruction:  label: drop opcode: ret position3
-RET
+Opened test/parallel_bad/arp.bpf
+Opened test/parallel_bad/bad_tcp.bpf
+Opened test/parallel_bad/not_exec_inst.bpf
+Opened test/parallel_bad/seccomp.bpf
+Opened test/parallel_bad/vlan.bpf

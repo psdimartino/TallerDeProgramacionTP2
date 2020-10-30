@@ -1,1 +1,1 @@
-./tp 3 arp.bpf bad_tcp.bpf not_exec_inst.bpf seccomp.bpf vlan.bpf
+./tp 3 test/parallel_bad/arp.bpf test/parallel_bad/bad_tcp.bpf test/parallel_bad/not_exec_inst.bpf test/parallel_bad/seccomp.bpf test/parallel_bad/vlan.bpf

@@ -1,1 +1,1 @@
-./tp 3 arp.bpf icmp.bpf seccomp.bpf tcp.bpf vlan.bpf
+./tp 3 test/parallel_good/arp.bpf test/parallel_good/icmp.bpf test/parallel_good/seccomp.bpf test/parallel_good/tcp.bpf test/parallel_good/vlan.bpf

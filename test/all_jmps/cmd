@@ -1,1 +1,1 @@
-./tp 1 all_jmps.bpf
+./tp 1 test/all_jmps/all_jmps.bpf

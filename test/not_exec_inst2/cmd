@@ -1,1 +1,1 @@
-./tp 1 not_exec_inst2.bpf
+./tp 1 test/not_exec_inst2/not_exec_inst2.bpf

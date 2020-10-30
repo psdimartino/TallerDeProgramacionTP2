@@ -1,1 +1,1 @@
-./tp 1 seccomp.bpf
+./tp 1 test/seccomp/seccomp.bpf

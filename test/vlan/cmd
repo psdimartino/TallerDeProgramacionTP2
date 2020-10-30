@@ -1,1 +1,1 @@
-./tp 1 vlan.bpf
+./tp 1 test/vlan/vlan.bpf
