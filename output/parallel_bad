@@ -1,5 +1,0 @@
-Opened test/parallel_bad/arp.bpf
-Opened test/parallel_bad/bad_tcp.bpf
-Opened test/parallel_bad/not_exec_inst.bpf
-Opened test/parallel_bad/seccomp.bpf
-Opened test/parallel_bad/vlan.bpf

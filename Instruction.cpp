@@ -43,13 +43,13 @@ Instruction::Instruction (const std::string &initString, int _position ) {
 
     //Buscar tipo
     if ( opcode.compare("ret") == 0){
-        cout << "Type RET" << endl;
+        // cout << "Type RET" << endl;
         type = RET;
         return;
     }
 
     if( (find(jumpOpcodes.cbegin(), jumpOpcodes.cend(),opcode)) == jumpOpcodes.cend() ){
-         cout << "Type NOJUMP" << endl;
+        //  cout << "Type NOJUMP" << endl;
         type = NOJUMP;
         return;
     }
@@ -68,15 +68,15 @@ Instruction::Instruction (const std::string &initString, int _position ) {
 
     switch (i) {
     case 1:
-        cout << "INCONDITIONAL" << endl;
+        // cout << "INCONDITIONAL" << endl;
         type = INCONDITIONAL;
         break;
     case 2:
-        cout << "CONDITIONAL_SIMPLE" << endl;
+        // cout << "CONDITIONAL_SIMPLE" << endl;
         type = CONDITIONAL_SIMPLE;
         break;
     case 3:
-        cout << "CONDITIONAL_DOUBLE" << endl;
+        // cout << "CONDITIONAL_DOUBLE" << endl;
         type = CONDITIONAL_DOUBLE;
         break;
     }

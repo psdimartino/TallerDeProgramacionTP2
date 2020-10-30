@@ -1,5 +1,0 @@
-Opened test/parallel_good/arp.bpf
-Opened test/parallel_good/icmp.bpf
-Opened test/parallel_good/seccomp.bpf
-Opened test/parallel_good/tcp.bpf
-Opened test/parallel_good/vlan.bpf
