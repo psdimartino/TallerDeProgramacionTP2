@@ -17,6 +17,9 @@ Instruction::Instruction(const Instruction &toCopy){
     this->arguments = toCopy.arguments;
 }
 
+Instruction::Instruction(){
+}
+
 Instruction& Instruction::operator=(const Instruction &toCopy){
     this->opcode = toCopy.opcode;
     this->label = toCopy.label;
@@ -83,13 +86,12 @@ Instruction::Instruction (const std::string &initString, int _position ) {
 }
 
 void Instruction::imprimir() const {
-    if(!label.empty())cout << " label: " << label;
-    if(!opcode.empty())cout << " opcode: " << opcode;
-    for(string arg : arguments){
-        cout << " " << arg;
-    }
-    cout << " position: " << position;
-    // cout << " Type: " << type << endl;
+    // if(!label.empty())cout << " label: " << label;
+    // if(!opcode.empty())cout << " opcode: " << opcode;
+    // for(string arg : arguments){
+    //     cout << " " << arg;
+    // }
+    cout << position + 1 << endl;
     cout << endl;
 }
 

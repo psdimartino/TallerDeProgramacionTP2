@@ -24,6 +24,7 @@ private:
     InstructionType type;
     int position;
 public:
+    Instruction();
     Instruction(const Instruction &);
     explicit Instruction(const std::string &, int);
     void imprimir() const;
