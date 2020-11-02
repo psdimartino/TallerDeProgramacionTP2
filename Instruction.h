@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <map>
 
 using namespace std;
 
@@ -34,6 +35,7 @@ public:
     InstructionType getType() const;
     int getPosition() const;
     Instruction& operator=(const Instruction &);
+    list<int> getNext(map<string, int>);
 };
 
 #endif

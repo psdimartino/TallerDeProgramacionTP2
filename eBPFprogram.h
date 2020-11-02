@@ -18,13 +18,14 @@ class eBPFprogram
 {
 private:
     vector<Instruction> instructions;
-    map<string, Instruction> labels;
+    map<string, int> labels;
     int numberOfLines;
 public:
     eBPFprogram();
     explicit eBPFprogram(ifstream &);
     ~eBPFprogram();
     bool hasCycles();
+    bool hasUnusedInstructions();
 };
 
 #endif

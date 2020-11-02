@@ -1,7 +1,11 @@
 #include <sstream>
 #include <stack>
 #include <fstream>
+#include <iostream>
+#include <algorithm>
 #include "eBPFprogram.h"
+
+using namespace std;
 
 eBPFprogram::eBPFprogram::eBPFprogram(ifstream &initStream) {
     for(numberOfLines = 0; !initStream.eof(); ++numberOfLines){
@@ -14,47 +18,49 @@ eBPFprogram::eBPFprogram::eBPFprogram(ifstream &initStream) {
         Instruction instruction(auxString,numberOfLines);
         instructions.push_back(instruction);
         if(instruction.isLabel()){
-            labels.insert(pair<string, Instruction>(instruction.getLabel(),instruction));
+            labels.insert(pair<string, int>(instruction.getLabel(),numberOfLines));
         }
     }
 }
 
 bool eBPFprogram::hasCycles(){
-    stack<Instruction> insStack;
+    stack<int> insStack;
     nodeFlag flags[128] = { UNVISITED };
 
-    insStack.push(instructions.front());
+    insStack.push(0);
     while (!insStack.empty()) {
-        Instruction instruction = insStack.top();
+        Instruction instruction = instructions[insStack.top()];
         insStack.pop();
         flags[instruction.getPosition()] = POPED;
-        switch (instruction.getType()) {
-            case CONDITIONAL_SIMPLE:
-                if(flags[labels.at( instruction.getArguments().front() ) .getPosition()] == POPED){
-                    return true;
-                }
-                flags[labels.at( instruction.getArguments().front() ) .getPosition()] = VISITED;
-                insStack.push( labels.at( instruction.getArguments().front() ) );
+        for (int next : instruction.getNext(labels)){
+            if(flags[next] == VISITED) return true;
+            flags[next] = VISITED;
+            insStack.push(next);
+        }
+    }
+    return false;
+}
 
-            case NOJUMP:
-                if(flags[instructions[instruction.getPosition() + 1].getPosition()] == POPED){
-                    return true;
-                }
-                flags[instructions[instruction.getPosition() + 1].getPosition()] = POPED;
-                insStack.push( instructions[instruction.getPosition() + 1] );
-                break;
-            case INCONDITIONAL:
-            case CONDITIONAL_DOUBLE:
-                for (string label : instruction.getArguments()){
-                    if(flags[labels.at(label).getPosition()] == VISITED){
-                        return true;
-                    }
-                    flags[labels.at(label).getPosition()] = VISITED;
-                    insStack.push( labels.at(label) );
-                }
-                break;
-            case RET:
-                break;
+bool eBPFprogram::hasUnusedInstructions(){
+    stack<int> insStack;
+    nodeFlag flags[128] = { UNVISITED };
+
+    insStack.push(0);
+    while (!insStack.empty()) {
+        Instruction instruction = instructions[insStack.top()];
+        insStack.pop();
+        flags[instruction.getPosition()] = POPED;
+        for (int next : instruction.getNext(labels)){
+            if(flags[next] != VISITED){
+                flags[next] = VISITED;
+                insStack.push(next);
+            }
+        }
+    }
+    
+    for(Instruction instruction : instructions){
+        if( flags[instruction.getPosition()] == UNVISITED ){
+            return true;
         }
     }
     return false;

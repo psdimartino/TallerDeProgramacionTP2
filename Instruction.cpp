@@ -114,3 +114,27 @@ InstructionType Instruction::getType() const{
 int Instruction::getPosition() const{
     return position;
 }
+
+list<int> Instruction::getNext(map<string, int> labels){
+    list<int> nextInstructions;
+    switch (type) {
+        case CONDITIONAL_SIMPLE:
+            nextInstructions.push_front( labels.at(arguments.front()) );
+            if( (position + 1) == labels.at(arguments.front())) break;
+        case NOJUMP:
+            nextInstructions.push_front(position + 1 );
+            break;
+        case INCONDITIONAL:
+            nextInstructions.push_front(labels.at(arguments.front()));
+            break;
+        case CONDITIONAL_DOUBLE:
+            nextInstructions.push_front(labels.at(arguments.front()));
+            if(arguments.front() == arguments.back()){
+                nextInstructions.push_front(labels.at(arguments.back()));
+            }
+            break;
+        case RET:
+            break;
+    }
+    return nextInstructions;
+}

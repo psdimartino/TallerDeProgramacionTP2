@@ -37,8 +37,10 @@ int main(int argc,char *argv[]){
         fileName = fileName.substr(fileName.find_last_of('/') + 1);
         cout << fileName << " ";
 
-        if(program.hasCycle()){
+        if(program.hasCycles()){
             cout << "FAIL: cycle detected" << endl;
+        } else if(program.hasUnusedInstructions()){
+            cout << "FAIL: unused instructions detected" << endl;
         } else {
             cout << "GOOD" << endl;
         }
