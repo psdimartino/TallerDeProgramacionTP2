@@ -1,0 +1,38 @@
+#include "Result.h"
+#include <iostream>
+
+void Result::hasCycle(bool result) {
+    hasCycle_ = result;
+}
+
+void Result::hasUnusedInstructions(bool result) {
+    hasUnusedInstructions_ = result;
+}
+
+Result::Result(string const programName, eBPFprogram ebpfprogram) {
+    this->programName_ = programName;
+    this->ebpfprogram = ebpfprogram;
+}
+void Result::print() {
+    cout << programName_;
+    if ( hasCycle_ ) {
+        cout << " FAIL: cycle detected";
+    } else if ( hasUnusedInstructions_ ) {
+        cout << " FAIL: unused instructions detected";
+    }
+}
+
+
+string Result::programName() {
+    return programName_;
+}
+
+eBPFprogram& Result::program() {
+    return ebpfprogram;
+}
+
+Result::Result() {
+}
+
+Result::~Result() {
+}

@@ -1,5 +1,5 @@
-#ifndef INSTRUCTION_H
-#define INSTRUCTION_H
+#ifndef INSTRUCTION_H_
+#define INSTRUCTION_H_
 
 #include <string>
 #include <vector>
@@ -12,19 +12,20 @@ enum InstructionType {
     INCONDITIONAL,
     CONDITIONAL_SIMPLE,
     CONDITIONAL_DOUBLE,
-    NOJUMP, 
+    NOJUMP,
     RET
 };
 
 class Instruction{
-private:
-    const std::vector<std::string> jumpOpcodes = {"jmp","ja","jeq","jneq","jne","jlt","jle","jgt","jge","jset"};
+ private:
+    const std::vector<std::string> jOpcodes =
+        {"jmp", "ja", "jeq", "jneq", "jne", "jlt", "jle", "jgt", "jge", "jset"};
     // std::string label, opcode, argument1,argument2,argument3;
     string label, opcode;
     list<string> arguments;
     InstructionType type;
     int position;
-public:
+ public:
     Instruction();
     Instruction(const Instruction &);
     explicit Instruction(const std::string &, int);
@@ -38,4 +39,4 @@ public:
     list<int> getNext(map<string, int>);
 };
 
-#endif
+#endif  //  INSTRUCTION_H_

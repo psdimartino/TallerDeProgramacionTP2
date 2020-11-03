@@ -9,7 +9,7 @@
 
 using namespace std;
 
-Instruction::Instruction(const Instruction &toCopy){
+Instruction::Instruction(const Instruction &toCopy) {
     this->opcode = toCopy.opcode;
     this->label = toCopy.label;
     this->position = toCopy.position;
@@ -17,10 +17,10 @@ Instruction::Instruction(const Instruction &toCopy){
     this->arguments = toCopy.arguments;
 }
 
-Instruction::Instruction(){
+Instruction::Instruction() {
 }
 
-Instruction& Instruction::operator=(const Instruction &toCopy){
+Instruction& Instruction::operator=(const Instruction &toCopy) {
     this->opcode = toCopy.opcode;
     this->label = toCopy.label;
     this->position = toCopy.position;
@@ -29,13 +29,11 @@ Instruction& Instruction::operator=(const Instruction &toCopy){
     return *this;
 }
 
-Instruction::Instruction (const std::string &initString, int _position ) {
+Instruction::Instruction(const std::string &initString, int _position ) {
     position = _position;
-    //Parsear la informacion de la linea
     istringstream auxStream(initString);
     string auxString;
 
-    //Primer tramo
     auxStream >> auxString;
     if ( auxString.back() == ':' ) {
         auxString.erase(auxString.length()-1);
@@ -44,58 +42,47 @@ Instruction::Instruction (const std::string &initString, int _position ) {
     }
     opcode = auxString;
 
-    //Buscar tipo
-    if ( opcode.compare("ret") == 0){
-        // cout << "Type RET" << endl;
+    if ( opcode.compare("ret") == 0 ) {
         type = RET;
         return;
     }
 
-    if( (find(jumpOpcodes.cbegin(), jumpOpcodes.cend(),opcode)) == jumpOpcodes.cend() ){
-        //  cout << "Type NOJUMP" << endl;
+    if ( (find(jOpcodes.cbegin(), jOpcodes.cend(), opcode))
+                                     == jOpcodes.cend() ) {
         type = NOJUMP;
         return;
     }
 
-    //Ver que tipo de jump es
     int i = 0;
-    for(; !auxStream.eof();++i){
+    for ( ; !auxStream.eof(); ++i) {
         auxStream >> auxString;
-        if(auxString.back() == ',') {
+        if ( auxString.back() == ',' ) {
             auxString.erase(auxString.length()-1);
         }
-        if( auxString.front() != '[' && auxString.front() != '#' ){
+        if ( auxString.front() != '[' && auxString.front() != '#' ) {
             arguments.push_back(auxString);
         }
     }
 
     switch (i) {
     case 1:
-        // cout << "INCONDITIONAL" << endl;
         type = INCONDITIONAL;
         break;
     case 2:
-        // cout << "CONDITIONAL_SIMPLE" << endl;
         type = CONDITIONAL_SIMPLE;
         break;
     case 3:
-        // cout << "CONDITIONAL_DOUBLE" << endl;
         type = CONDITIONAL_DOUBLE;
         break;
     }
 }
 
 void Instruction::imprimir() const {
-    // if(!label.empty())cout << " label: " << label;
-    // if(!opcode.empty())cout << " opcode: " << opcode;
-    // for(string arg : arguments){
-    //     cout << " " << arg;
-    // }
     cout << position + 1 << endl;
     cout << endl;
 }
 
-bool Instruction::isLabel() const{
+bool Instruction::isLabel() const {
     return !label.empty();
 }
 
@@ -103,33 +90,33 @@ string Instruction::getLabel() const {
     return label;
 }
 
-list<string> Instruction::getArguments() const{
+list<string> Instruction::getArguments() const {
     return arguments;
 }
 
-InstructionType Instruction::getType() const{
+InstructionType Instruction::getType() const {
     return type;
 }
 
-int Instruction::getPosition() const{
+int Instruction::getPosition() const {
     return position;
 }
 
-list<int> Instruction::getNext(map<string, int> labels){
+list<int> Instruction::getNext(map<string, int> labels) {
     list<int> nextInstructions;
     switch (type) {
         case CONDITIONAL_SIMPLE:
-            nextInstructions.push_front( labels.at(arguments.front()) );
-            if( (position + 1) == labels.at(arguments.front())) break;
+            nextInstructions.push_front(labels.at(arguments.front()) );
+            if ( (position + 1) == labels.at(arguments.front())) break;
         case NOJUMP:
-            nextInstructions.push_front(position + 1 );
+            nextInstructions.push_front(position + 1);
             break;
         case INCONDITIONAL:
             nextInstructions.push_front(labels.at(arguments.front()));
             break;
         case CONDITIONAL_DOUBLE:
             nextInstructions.push_front(labels.at(arguments.front()));
-            if(arguments.front() == arguments.back()){
+            if ( arguments.front() == arguments.back() ) {
                 nextInstructions.push_front(labels.at(arguments.back()));
             }
             break;

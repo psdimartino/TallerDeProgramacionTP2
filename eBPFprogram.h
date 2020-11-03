@@ -1,12 +1,11 @@
-#ifndef EBPFPROGRAM_H
-#define EBPFPROGRAM_H
+#ifndef EBPFPROGRAM_H_
+#define EBPFPROGRAM_H_
 
 #include <string>
-#include <vector>
-#include <list>
 #include "Instruction.h"
 #include <map>
 #include <fstream>
+#include <vector>
 
 enum nodeFlag {
     UNVISITED,
@@ -14,13 +13,12 @@ enum nodeFlag {
     POPED
 };
 
-class eBPFprogram
-{
-private:
+class eBPFprogram{
+ private:
     vector<Instruction> instructions;
     map<string, int> labels;
-    int numberOfLines;
-public:
+    int lines;
+ public:
     eBPFprogram();
     explicit eBPFprogram(ifstream &);
     ~eBPFprogram();
@@ -28,4 +26,4 @@ public:
     bool hasUnusedInstructions();
 };
 
-#endif
+#endif  //  EBPFPROGRAM_H_
