@@ -6,18 +6,17 @@
 class Result {
  private:
     eBPFprogram ebpfprogram;
-    string programName_;
+    std::string programName_;
     bool hasCycle_, hasUnusedInstructions_;
  public:
-    explicit Result(string, eBPFprogram);
+    explicit Result(std::string, eBPFprogram);
     Result();
     ~Result();
     eBPFprogram& program();
-    string programName();
+    std::string programName();
     void hasCycle(bool);
     void hasUnusedInstructions(bool);
-    void print();
-    friend std::ostream& operator<<(std::ostream& os, const Result &other){
+    friend std::ostream& operator<<(std::ostream& os, const Result &other) {
         os << other.programName_;
         if ( other.hasCycle_ ) {
             os << " FAIL: cycle detected";
@@ -26,6 +25,7 @@ class Result {
         } else { os << " GOOD"; }
         return os;
     }
+    bool operator <(const Result & other) const;
 };
 
 #endif  // RESULT_H_

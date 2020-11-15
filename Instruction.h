@@ -6,8 +6,6 @@
 #include <list>
 #include <map>
 
-using namespace std;
-
 enum InstructionType {
     INCONDITIONAL,
     CONDITIONAL_SIMPLE,
@@ -21,8 +19,8 @@ class Instruction{
     const std::vector<std::string> jOpcodes =
         {"jmp", "ja", "jeq", "jneq", "jne", "jlt", "jle", "jgt", "jge", "jset"};
     // std::string label, opcode, argument1,argument2,argument3;
-    string label, opcode;
-    list<string> arguments;
+    std::string label, opcode;
+    std::list<std::string> arguments;
     InstructionType type;
     int position;
  public:
@@ -31,12 +29,10 @@ class Instruction{
     explicit Instruction(const std::string &, int);
     void imprimir() const;
     bool isLabel() const;
-    list<string> getArguments() const;
-    string getLabel() const;
-    InstructionType getType() const;
+    std::string getLabel() const;
     int getPosition() const;
     Instruction& operator=(const Instruction &);
-    list<int> getNext(map<string, int>);
+    std::list<int> getNext(std::map<std::string, int>);
 };
 
 #endif  //  INSTRUCTION_H_

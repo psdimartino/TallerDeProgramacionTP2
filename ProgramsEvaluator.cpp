@@ -15,5 +15,4 @@ void ProgramsEvaluator::run() {  // Override
         }
         l.push_front(result);
     }
-    cerr << "The queue is empty" << endl;
 }

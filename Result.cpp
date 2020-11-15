@@ -9,21 +9,16 @@ void Result::hasUnusedInstructions(bool result) {
     hasUnusedInstructions_ = result;
 }
 
-Result::Result(string const programName, eBPFprogram ebpfprogram) {
+Result::Result(std::string const programName, eBPFprogram ebpfprogram) {
     this->programName_ = programName;
     this->ebpfprogram = ebpfprogram;
 }
-void Result::print() {
-    cout << programName_;
-    if ( hasCycle_ ) {
-        cout << " FAIL: cycle detected";
-    } else if ( hasUnusedInstructions_ ) {
-        cout << " FAIL: unused instructions detected";
-    }
+
+bool Result::operator<(const Result & other) const {
+    return this->programName_ < other.programName_;
 }
 
-
-string Result::programName() {
+std::string Result::programName() {
     return programName_;
 }
 

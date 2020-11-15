@@ -4,14 +4,13 @@
 #include <iostream>
 #include <algorithm>
 #include <utility>
+#include <vector>
 #include "eBPFprogram.h"
 
-using namespace std;
 
-
-eBPFprogram::eBPFprogram::eBPFprogram(ifstream &initStream) {
+eBPFprogram::eBPFprogram::eBPFprogram(std::ifstream &initStream) {
     for ( lines = 0; !initStream.eof(); ++lines ) {
-        string auxString;
+        std::string auxString;
         std::getline(initStream, auxString);
         if ( auxString.empty() ) {
             lines--;
@@ -20,14 +19,20 @@ eBPFprogram::eBPFprogram::eBPFprogram(ifstream &initStream) {
         Instruction instruction(auxString, lines);
         instructions.push_back(instruction);
         if ( instruction.isLabel() ) {
-            labels.insert(pair<string, int>(instruction.getLabel(), lines));
+            labels.insert(
+                std::pair<std::string,
+                int>(instruction.getLabel(), lines));
         }
     }
 }
 
 bool eBPFprogram::hasCycles() {
-    stack<int> insStack;
-    nodeFlag flags[128] = { UNVISITED };
+    std::stack<int> insStack;
+    std::vector<nodeFlag> flags;
+
+    for ( Instruction instruction : instructions ) {
+        flags.emplace_back(UNVISITED);
+    }
 
     insStack.push(0);
     while (!insStack.empty()) {
@@ -42,10 +47,17 @@ bool eBPFprogram::hasCycles() {
     }
     return false;
 }
+bool isUnvisited(nodeFlag flag) {
+    return flag == UNVISITED;
+}
 
 bool eBPFprogram::hasUnusedInstructions() {
-    stack<int> insStack;
-    nodeFlag flags[128] = { UNVISITED };
+    std::stack<int> insStack;
+    std::vector<nodeFlag> flags;
+
+    for ( Instruction instruction : instructions ) {
+        flags.emplace_back(UNVISITED);
+    }
 
     insStack.push(0);
     while (!insStack.empty()) {
@@ -59,10 +71,8 @@ bool eBPFprogram::hasUnusedInstructions() {
             }
         }
     }
-    for ( Instruction instruction : instructions ) {
-        if ( flags[instruction.getPosition()] == UNVISITED ) {
-            return true;
-        }
+    if ( std::any_of(flags.begin(), flags.end(), isUnvisited) ) {
+        return true;
     }
     return false;
 }

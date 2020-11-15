@@ -15,12 +15,12 @@ enum nodeFlag {
 
 class eBPFprogram{
  private:
-    vector<Instruction> instructions;
-    map<string, int> labels;
+    std::vector<Instruction> instructions;
+    std::map<std::string, int> labels;
     int lines;
  public:
     eBPFprogram();
-    explicit eBPFprogram(ifstream &);
+    explicit eBPFprogram(std::ifstream &);
     ~eBPFprogram();
     bool hasCycles();
     bool hasUnusedInstructions();

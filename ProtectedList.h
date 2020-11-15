@@ -6,32 +6,29 @@
 #include <condition_variable>
 #include <algorithm>
 
-using namespace std;
-
 template <typename T>
 class ProtectedList {
  private:
-    list<T> l;
-    mutex m;
-    condition_variable cv;
+    std::list<T> l;
+    std::mutex m;
+    std::condition_variable cv;
  public:
     ProtectedList();
     ~ProtectedList();
     void push_front(T element);
     T front();
-    void sort(int (*comp)(T &, T &));
+    void sort();
 };
 
 template <typename T>
 void ProtectedList<T>::push_front(T element) {
-    unique_lock<mutex> lock(m);
+    std::unique_lock<std::mutex> lock(m);
     l.push_front(element);
-    cerr << "Result list " << element << endl;
 }
 
 template <typename T>
 T ProtectedList<T>::front() {
-    unique_lock<mutex> lock(m);
+    std::unique_lock<std::mutex> lock(m);
     T ret = l.front();
     l.pop_front();
     cv.notify_all();
@@ -39,9 +36,9 @@ T ProtectedList<T>::front() {
 }
 
 template <typename T>
-void ProtectedList<T>::sort( int (*comp)(T &, T &) ) {
-    unique_lock<mutex> lock(m);
-    l.sort(comp);
+void ProtectedList<T>::sort() {
+    // std::unique_lock<std::mutex> lock(m);
+    l.sort();
     cv.notify_all();
 }
 

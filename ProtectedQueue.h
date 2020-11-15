@@ -6,14 +6,12 @@
 #include <condition_variable>
 #include "Thread.h"
 
-using namespace std;
-
 template <typename T>
 class ProtectedQueue {
  private:
-    mutex m;
-    queue<T> q;
-    condition_variable cv;
+    std::mutex m;
+    std::queue<T> q;
+    std::condition_variable cv;
     bool isWaiting;
  public:
     ProtectedQueue();
@@ -37,7 +35,7 @@ ProtectedQueue<T>::~ProtectedQueue() {
 
 template <typename T>
 bool ProtectedQueue<T>::front(T *frontElement) {
-    unique_lock<mutex> lock(m);
+    std::unique_lock<std::mutex> lock(m);
     while ( waiting() ) {  // spourious wake-ups
         // blocks the current thread until the condition variable is woken up
         cv.wait(lock);
@@ -50,7 +48,7 @@ bool ProtectedQueue<T>::front(T *frontElement) {
 
 template <typename T>
 void ProtectedQueue<T>::push(T const &element) {
-    unique_lock<mutex> lock(m);
+    std::unique_lock<std::mutex> lock(m);
     q.push(element);
     cv.notify_all();  // notify all threads that a element has been pushed
 }
