@@ -26,14 +26,18 @@ int main(int argc, char *argv[]) {
         std::ifstream aFile;
         std::string fileName = argv[i+2];
 
+        // Se crea un nuevo programa
         aFile.open(fileName);
         if ( aFile.is_open() == false ) {
             return 1;
         }
         fileName = fileName.substr(fileName.find_last_of('/') + 1);
         eBPFprogram program(aFile);
+
+        // Se lo carga a un Result adjuntando su nombre
         Result result(fileName, program);
         programs.push(result);
+
         aFile.close();
     }
     programs.endLoading();

@@ -9,7 +9,7 @@
 
 
 eBPFprogram::eBPFprogram::eBPFprogram(std::ifstream &initStream) {
-    for ( lines = 0; !initStream.eof(); ++lines ) {
+    for ( int lines = 0; !initStream.eof(); ++lines ) {
         std::string auxString;
         std::getline(initStream, auxString);
         if ( auxString.empty() ) {
@@ -17,6 +17,7 @@ eBPFprogram::eBPFprogram::eBPFprogram(std::ifstream &initStream) {
             continue;
         }
         Instruction instruction(auxString, lines);
+        instruction.imprimir();
         instructions.push_back(instruction);
         if ( instruction.isLabel() ) {
             labels.insert(

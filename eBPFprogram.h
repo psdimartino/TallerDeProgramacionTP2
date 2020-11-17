@@ -17,7 +17,6 @@ class eBPFprogram{
  private:
     std::vector<Instruction> instructions;
     std::map<std::string, int> labels;
-    int lines;
  public:
     eBPFprogram();
     explicit eBPFprogram(std::ifstream &);

@@ -32,43 +32,46 @@ Instruction::Instruction(const std::string &initString, int _position ) {
     std::istringstream auxStream(initString);
     std::string auxString;
 
-    while (!auxStream.eof()) {
+    auxStream >> auxString;
+    if ( auxString.back() == ':' ) {
+        label = auxString.erase(auxString.length()-1);
         auxStream >> auxString;
-        if ( auxString.back() == ':' ) {
-            label = auxString.erase(auxString.length()-1);
-            continue;
+    }
+    setType(auxString, auxStream);
+}
+
+enum InstructionType jumpType(int arguments) {
+    switch (arguments) {
+        case 1:
+            return INCONDITIONAL;
+        case 2:
+            return CONDITIONAL_SIMPLE;
+    }
+    return CONDITIONAL_DOUBLE;
+}
+
+void Instruction::setType(std::string opcode, std::istringstream &argStream) {
+    this->opcode = opcode;
+    if ( opcode.compare("ret") == 0 ) {
+        type = RET;
+        return;
+    }
+    if ( (find(jumps.cbegin(), jumps.cend(), opcode))  == jumps.cend() ) {
+        type = NOJUMP;
+        return;
+    }
+    int nOfArguments = 0;
+    for (; !argStream.eof(); nOfArguments++) {
+        std::string auxString;
+        argStream >> auxString;
+        if ( auxString.back() == ',' ) {
+            auxString.erase(auxString.length()-1);
         }
-        opcode = auxString;
-        if ( opcode.compare("ret") == 0 ) {
-            type = RET;
-            return;
-        }
-        if ( (find(jOpcodes.cbegin(), jOpcodes.cend(), opcode))
-                                     == jOpcodes.cend() ) {
-            type = NOJUMP;
-            return;
-        }
-        for (int i = 0; !auxStream.eof(); i++) {
-            auxStream >> auxString;
-            if ( auxString.back() == ',' ) {
-                auxString.erase(auxString.length()-1);
-            }
-            if ( auxString.front() != '[' && auxString.front() != '#' ) {
-                arguments.push_back(auxString);
-            }
-            switch (i) {
-                case 0:
-                    type = INCONDITIONAL;
-                    break;
-                case 1:
-                    type = CONDITIONAL_SIMPLE;
-                    break;
-                case 2:
-                    type = CONDITIONAL_DOUBLE;
-                    break;
-            }
+        if ( auxString.front() != '[' && auxString.front() != '#' ) {
+            arguments.push_back(auxString);
         }
     }
+    type = jumpType(nOfArguments);  // Sets jump type from the number of args
 }
 
 bool Instruction::isLabel() const {
